@@ -188,9 +188,9 @@ echo "✅ All app hosts secured."
 ### 4.1 From Jump Host (Should fail)
 
 ```bash
-nc -zv stapp01 3000
-nc -zv stapp02 3000
-nc -zv stapp03 3000
+telnet stapp01 3000
+telnet stapp02 3000
+telnet stapp03 3000
 ```
 
 **Expected:** Connection fails. ✅
@@ -198,9 +198,9 @@ nc -zv stapp03 3000
 ### 4.2 From LBR Host (Should succeed)
 
 ```bash
-nc -zv stapp01 3000
-nc -zv stapp02 3000
-nc -zv stapp03 3000
+telnet stapp01 3000
+telnet stapp02 3000
+telnet stapp03 3000
 ```
 
 **Expected:** Connection succeeds. ✅
