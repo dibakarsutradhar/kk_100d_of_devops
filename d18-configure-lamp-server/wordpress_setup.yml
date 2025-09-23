@@ -1,0 +1,67 @@
+---
+- name: Setup Apache + PHP on App Servers
+  hosts: app_servers
+  become: true
+  tasks:
+
+    - name: Gather facts
+      ansible.builtin.setup:
+
+    - name: Install Apache and PHP packages
+      ansible.builtin.yum:
+        name:
+          - httpd
+          - php
+          - php-mysqlnd   # Use php-mysqlnd instead of php-mysql
+        state: present
+
+    - name: Change Apache listen port to 3000
+      ansible.builtin.lineinfile:
+        path: /etc/httpd/conf/httpd.conf
+        regexp: '^Listen'
+        line: 'Listen 3000'
+
+    - name: Ensure Apache is running and enabled
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: yes
+
+- name: Setup MariaDB on DB Server
+  hosts: db_server
+  become: true
+  tasks:
+
+    - name: Gather facts
+      ansible.builtin.setup:
+
+    - name: Install MariaDB server
+      ansible.builtin.yum:
+        name: mariadb-server
+        state: present
+
+    - name: Start and enable MariaDB
+      ansible.builtin.service:
+        name: mariadb
+        state: started
+        enabled: yes
+
+    - name: Install PyMySQL (required for Ansible MySQL modules)
+      ansible.builtin.pip:
+        name: PyMySQL
+        state: present
+
+    - name: Ensure MariaDB root password is set (skip if already set)
+      ansible.builtin.command: >
+        mysqladmin -u root password 'root_password_here'
+      args:
+        creates: /root/.my.cnf
+      ignore_errors: yes
+
+    - name: Open port 3306 in firewalld
+      ansible.posix.firewalld:
+        port: 3306/tcp
+        permanent: yes
+        state: enabled
+        immediate: yes
+        zone: public
