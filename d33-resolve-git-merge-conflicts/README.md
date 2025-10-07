@@ -170,10 +170,10 @@ Push was successful.
 
 ## 📸 Gitea Screenshots
 
-![Repository dashboard showing the latest commit](/images/Screenshot1.png)
+![Repository dashboard showing the latest commit](./images/Screenshot1.png)
 > 🖼️ *Figure 1 – Repository dashboard showing the latest commit*
 
-![`story-index.txt` file content with corrected “Mouse” title](/images/Screenshot2.png)
+![`story-index.txt` file content with corrected “Mouse” title](./images/Screenshot2.png)
 > 🖼️ *Figure 2 – `story-index.txt` file content with corrected “Mouse” title*
 
 ---
